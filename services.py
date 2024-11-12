@@ -1,5 +1,6 @@
 from repositories import Repositories
 
+
 class Services:
 
 	def getApiLogin(self):

@@ -4,9 +4,10 @@ import json, re, time, os, random
 from os.path import exists
 import pandas as pd
 from io import BytesIO as IO
-from clients.recetas.services import Services
+from services import Services
 from flask import Flask, request, Response, render_template, redirect, flash, url_for, jsonify, redirect
 from flask import current_app
+import pathlib
 
 
 def login():
@@ -183,7 +184,6 @@ class Controller:
 		date = datetime.strftime(date_time, '%Y%m%d')
 		name = 'recetas_'+str(date)+'_'+str("{:06x}".format(random.randint(0, 0xFFFFFF)))+'.xlsx'
 
-
 		# this is my output data a list of lists
 		df_output = pd.DataFrame(dat)
 
@@ -221,7 +221,6 @@ class Controller:
 			data_sap_count = str(data_sap_count[0])
 
 			default_number = self.get_json('/app/default_number.json', nro_farma) 
-
 			
 			return self.view2(data_sap_count, fecha1, fecha2, farma_title, default_number)
 
@@ -279,8 +278,6 @@ class Controller:
 								}
 
 								all_list.append(list_data)
-
-					print(data['results'])
 
 
 			app = current_app._get_current_object()

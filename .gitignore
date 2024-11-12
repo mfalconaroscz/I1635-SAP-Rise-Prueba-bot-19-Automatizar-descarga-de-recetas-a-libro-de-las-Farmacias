@@ -1,1 +1,3 @@
-credenciales.txt
+*.txt
+*.env
+venv/

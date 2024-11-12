@@ -6,13 +6,22 @@ import urllib.request, http.client, socket, requests
 import os, ssl
 from flask import current_app as app
 import logging
-import jaydebeapi
-import MySQLdb
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
+#import jaydebeapi
+#import MySQLdb	
+# MySQL-pythonMySQL-python es una biblioteca antigua que requiere ciertos archivos de configuración (config-win.h) que no están disponibles en sistemas modernos o carecen de soporte.
+from hdbcli import dbapi
+#from requests.packages.urllib3.exceptions import InsecureRequestWarning
+# Sintaxis deprecada
+from urllib3.exceptions import InsecureRequestWarning
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 
 if (not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unverified_context', None)): 
 	ssl._create_default_https_context = ssl._create_unverified_context
+
 
 
 class Repositories:
@@ -25,9 +34,10 @@ class Repositories:
 		self.password = 'PWD'
 
 		# Database Connection SAP SERVER
-		self.dirverSap=app.config['DRIVER_SAP']
-		self.jarFileSap=app.config['JAR_FILE_SAP']
+		#self.dirverSap=app.config['DRIVER_SAP']
+		#self.jarFileSap=app.config['JAR_FILE_SAP']
 		self.urlSap=app.config['URL_SAP']
+		self.portSap=app.config['PORT_SAP']
 		self.DBUserSap=app.config['DB_USER_SAP']
 		self.DBPwdSap=app.config['DB_PWD_SAP']
 
@@ -107,8 +117,12 @@ class Repositories:
 		# These lines enable debug logging; remove them once everything works.
 		logging.basicConfig(level=logging.INFO)
 
-		connSap = jaydebeapi.connect(self.dirverSap, self.urlSap, [self.DBUserSap, self.DBPwdSap], self.jarFileSap)
-
+		connSap = dbapi.connect(
+            address=self.urlSap,
+            port=self.portSap,
+            user=self.DBUserSap,
+            password=self.DBPwdSap
+        )
 		######## DATABASE SAP ########
 		querySap = """
 			SELECT DISTINCT \
@@ -154,7 +168,12 @@ class Repositories:
 		# These lines enable debug logging; remove them once everything works.
 		logging.basicConfig(level=logging.INFO)
 
-		connSap = jaydebeapi.connect(self.dirverSap, self.urlSap, [self.DBUserSap, self.DBPwdSap], self.jarFileSap)
+		connSap = dbapi.connect(
+            address=self.urlSap,
+            port=self.portSap,
+            user=self.DBUserSap,
+            password=self.DBPwdSap
+        )
 
 		######## DATABASE SAP ########
 		querySap = """
