@@ -4,7 +4,7 @@ import json, re, time, os, random
 from os.path import exists
 import pandas as pd
 from io import BytesIO as IO
-from clients.recetas.services import Services
+from services import Services
 from flask import Flask, request, Response, render_template, redirect, flash, url_for, jsonify, redirect
 from flask import current_app
 import pathlib
