@@ -1,4 +1,4 @@
-from repositories import Repositories
+from clients.recetas.repositories import Repositories
 
 class Services:
 
